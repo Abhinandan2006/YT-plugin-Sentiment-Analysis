@@ -6,7 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="830ea6fe-9998-4d5c-869a-4a8de8584643" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notebooks/2_experiment_1_baseline_model.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/2_experiment_1_baseline_model.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mlflow.db" beforeDir="false" afterPath="$PROJECT_DIR$/mlflow.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notebooks/3_experiment_2_bow_tfidf.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/3_experiment_2_bow_tfidf.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notebooks/4_experiment_3_tfidf_(1,3)_max_features.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/4_experiment_3_tfidf_(1,3)_max_features.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notebooks/5_experiment_4_handling_imbalanced_data.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/5_experiment_4_handling_imbalanced_data.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notebooks/6_experiment_5_xgboost_with_hpt.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/6_experiment_5_xgboost_with_hpt.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notebooks/7_experiment_6_lightgbm_detailed_hpt.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/7_experiment_6_lightgbm_detailed_hpt.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notebooks/confusion_matrix.png" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/confusion_matrix.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

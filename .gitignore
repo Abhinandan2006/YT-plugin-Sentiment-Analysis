@@ -1,0 +1,37 @@
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# IDE and Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# MLflow
+mlruns/
+mlartifacts/
+mlflow.db
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Data (Typically you shouldn't commit raw datasets)
+data/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

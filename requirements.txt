@@ -12,3 +12,5 @@ optuna
 wordcloud
 jupyter
 dvc
+flask
+flask-cors

@@ -11,8 +11,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 async function analyzeComments() {
   // Find all comment text elements
-  // YouTube uses yt-formatted-string with id="content-text" inside ytd-comment-renderer
-  const commentElements = document.querySelectorAll('ytd-comment-renderer #content-text');
+  // YouTube uses yt-formatted-string or yt-attributed-string with id="content-text"
+  // It can be inside ytd-comment-renderer (older) or ytd-comment-view-model (newer)
+  const commentElements = document.querySelectorAll('ytd-comment-view-model #content-text, ytd-comment-renderer #content-text');
   
   if (commentElements.length === 0) {
     throw new Error("No comments found. Please scroll down to load comments.");
@@ -24,10 +25,30 @@ async function analyzeComments() {
 
   commentElements.forEach(el => {
     // Check if we already added a badge
-    const headerElement = el.closest('ytd-comment-renderer').querySelector('#header-author');
-    if (headerElement && !headerElement.querySelector('.sentiment-badge')) {
+    let headerElement = null;
+    
+    // Try newer YouTube layout
+    let container = el.closest('ytd-comment-view-model');
+    if (container) {
+      headerElement = container.querySelector('#author-text');
+    } 
+    
+    // Fallback to older YouTube layout
+    if (!headerElement) {
+      container = el.closest('ytd-comment-renderer');
+      if (container) {
+        headerElement = container.querySelector('#header-author');
+      }
+    }
+
+    // If still not found, just use the comment text element itself as a fallback
+    if (!headerElement) {
+      headerElement = el;
+    }
+
+    if (headerElement && !headerElement.parentElement.querySelector('.sentiment-badge')) {
       unanalyzedComments.push(el.innerText);
-      unanalyzedElements.push(headerElement); // Attach badge next to author name
+      unanalyzedElements.push(headerElement); // Attach badge next to this element
     }
   });
 

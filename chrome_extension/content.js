@@ -28,16 +28,27 @@ async function collectUnanalyzedComments(targetCount = 100) {
         let container = el.closest('ytd-comment-view-model');
         if (container) {
           headerElement = container.querySelector('#author-text');
-          if (container.querySelector('ytd-author-comment-badge-renderer')) isMember = true;
-          if (container.querySelector('#paid-comment-chip')) isSuperchat = true;
+          const memberBadge = container.querySelector('ytd-author-comment-badge-renderer');
+          if (memberBadge && memberBadge.offsetWidth > 0 && !memberBadge.hasAttribute('hidden')) isMember = true;
+          
+          const paidChip = container.querySelector('#paid-comment-chip');
+          if (paidChip && paidChip.offsetWidth > 0 && !paidChip.hasAttribute('hidden')) isSuperchat = true;
         } 
         
         if (!headerElement) {
           container = el.closest('ytd-comment-renderer');
           if (container) {
             headerElement = container.querySelector('#header-author');
-            if (container.querySelector('ytd-author-comment-badge-renderer')) isMember = true;
-            if (el.closest('ytd-sponsorships-comment-renderer') || container.querySelector('#paid-comment-chip')) isSuperchat = true;
+            const memberBadge = container.querySelector('ytd-author-comment-badge-renderer');
+            if (memberBadge && memberBadge.offsetWidth > 0 && !memberBadge.hasAttribute('hidden')) isMember = true;
+            
+            const sponsorComment = el.closest('ytd-sponsorships-comment-renderer');
+            const paidChip = container.querySelector('#paid-comment-chip');
+            
+            if ((sponsorComment && sponsorComment.offsetWidth > 0 && !sponsorComment.hasAttribute('hidden')) || 
+                (paidChip && paidChip.offsetWidth > 0 && !paidChip.hasAttribute('hidden'))) {
+              isSuperchat = true;
+            }
           }
         }
 

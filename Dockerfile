@@ -14,11 +14,15 @@ COPY requirements-prod.txt .
 # Install python dependencies
 RUN pip install --no-cache-dir -r requirements-prod.txt
 
-# Pre-download NLTK data to ensure fast startup times
-RUN python -m nltk.downloader stopwords wordnet omw-1.4
+# Pre-download NLTK data to a global, readable directory
+RUN python -m nltk.downloader -d /usr/local/share/nltk_data stopwords wordnet omw-1.4
 
 # Copy the rest of the application code
 COPY . .
+
+# Render runs containers as a non-root user. 
+# We need to ensure the app can write to errors.log if it needs to.
+RUN touch errors.log && chmod 666 errors.log && chmod 777 /app
 
 # Expose port (default 5001, but can be overridden by environment variable)
 EXPOSE 5001

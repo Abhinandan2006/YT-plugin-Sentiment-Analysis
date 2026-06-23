@@ -229,3 +229,50 @@ p {
   font-size: 9px;
   font-weight: bold;
 }
+
+.pie-chart-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.pie-chart {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: conic-gradient(var(--success-color) 0% 50%, var(--error-color) 50% 100%);
+  border: 2px solid var(--border-color);
+  transition: background 0.5s ease;
+}
+
+.metrics-grid {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.metric-card {
+  flex: 1;
+  background-color: #242424;
+  border-radius: 6px;
+  padding: 8px;
+  text-align: center;
+  border: 1px solid var(--border-color);
+}
+
+.metric-card h3 {
+  margin: 0 0 5px 0;
+  font-size: 11px;
+  color: #aaaaaa;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.metric-card .stat-value {
+  font-size: 16px;
+  color: #4da6ff;
+}
+
+.metric-card.superchat .stat-value {
+  color: #ffca28; /* Gold color for superchats */
+}

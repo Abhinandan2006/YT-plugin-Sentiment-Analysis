@@ -28,11 +28,17 @@ document.addEventListener('DOMContentLoaded', () => {
         
         let posCount = 0;
         let negCount = 0;
+        let memberCount = 0;
+        let superchatCount = 0;
         let allText = "";
 
         predictions.forEach(pred => {
           if (pred.sentiment === 1) posCount++;
           else negCount++;
+          
+          if (pred.isMember) memberCount++;
+          if (pred.isSuperchat) superchatCount++;
+          
           allText += pred.comment + " ";
         });
 
@@ -44,6 +50,13 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('stat-pos-percent').textContent = `${posPercent}%`;
         document.getElementById('stat-neg-count').textContent = negCount;
         document.getElementById('stat-neg-percent').textContent = `${negPercent}%`;
+        
+        document.getElementById('stat-members-count').textContent = memberCount;
+        document.getElementById('stat-superchats-count').textContent = superchatCount;
+
+        // Update Pie Chart
+        const pieChart = document.getElementById('sentiment-pie');
+        pieChart.style.background = `conic-gradient(var(--success-color) 0% ${posPercent}%, var(--error-color) ${posPercent}% 100%)`;
 
         const words = allText.toLowerCase().replace(/[^\w\s]/g, '').split(/\s+/);
         const stopWords = new Set(["the","be","to","of","and","a","in","that","have","i","it","for","not","on","with","he","as","you","do","at","this","but","his","by","from","they","we","say","her","she","or","an","will","my","one","all","would","there","their","what","so","up","out","if","about","who","get","which","go","me","is","are","was","were","am","been","has","had","can","could","should","would","like","just","very"]);

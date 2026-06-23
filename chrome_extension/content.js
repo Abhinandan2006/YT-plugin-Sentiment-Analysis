@@ -9,50 +9,85 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 window.youtubeSentimentPredictions = window.youtubeSentimentPredictions || [];
 
-async function analyzeComments() {
-  const commentElements = document.querySelectorAll('ytd-comment-view-model #content-text, ytd-comment-renderer #content-text');
+async function collectUnanalyzedComments(targetCount = 100) {
+  let unanalyzedComments = [];
+  let unanalyzedElements = [];
+  let noNewCommentsCount = 0;
+  const maxNoNewComments = 8; 
   
-  if (commentElements.length === 0) {
-    throw new Error("No comments found. Please scroll down to load comments.");
-  }
-  const unanalyzedComments = [];
-  const unanalyzedElements = [];
+  return new Promise((resolve) => {
+    const scrollInterval = setInterval(() => {
+      const commentElements = document.querySelectorAll('ytd-comment-view-model #content-text, ytd-comment-renderer #content-text');
+      let newFound = false;
+      
+      commentElements.forEach(el => {
+        let headerElement = null;
+        let isSuperchat = false;
+        let isMember = false;
+        
+        let container = el.closest('ytd-comment-view-model');
+        if (container) {
+          headerElement = container.querySelector('#author-text');
+          if (container.querySelector('ytd-author-comment-badge-renderer')) isMember = true;
+          if (container.querySelector('#paid-comment-chip')) isSuperchat = true;
+        } 
+        
+        if (!headerElement) {
+          container = el.closest('ytd-comment-renderer');
+          if (container) {
+            headerElement = container.querySelector('#header-author');
+            if (container.querySelector('ytd-author-comment-badge-renderer')) isMember = true;
+            if (el.closest('ytd-sponsorships-comment-renderer') || container.querySelector('#paid-comment-chip')) isSuperchat = true;
+          }
+        }
 
-  commentElements.forEach(el => {
-    let headerElement = null;
-    
-    let container = el.closest('ytd-comment-view-model');
-    if (container) {
-      headerElement = container.querySelector('#author-text');
-    } 
-    
-    if (!headerElement) {
-      container = el.closest('ytd-comment-renderer');
-      if (container) {
-        headerElement = container.querySelector('#header-author');
+        if (!headerElement) headerElement = el;
+
+        if (headerElement && !headerElement.parentElement.querySelector('.sentiment-badge')) {
+          if (!unanalyzedElements.includes(headerElement)) {
+            unanalyzedComments.push({
+              text: el.innerText,
+              isMember: isMember,
+              isSuperchat: isSuperchat
+            });
+            unanalyzedElements.push(headerElement);
+            newFound = true;
+          }
+        }
+      });
+      
+      if (newFound) {
+        noNewCommentsCount = 0;
+      } else {
+        noNewCommentsCount++;
       }
-    }
-
-    if (!headerElement) {
-      headerElement = el;
-    }
-
-    if (headerElement && !headerElement.parentElement.querySelector('.sentiment-badge')) {
-      unanalyzedComments.push(el.innerText);
-      unanalyzedElements.push(headerElement);
-    }
+      
+      if (unanalyzedComments.length >= targetCount || noNewCommentsCount >= maxNoNewComments) {
+        clearInterval(scrollInterval);
+        resolve({
+          comments: unanalyzedComments.slice(0, targetCount),
+          elements: unanalyzedElements.slice(0, targetCount)
+        });
+      } else {
+        window.scrollBy(0, 1500); 
+      }
+    }, 800);
   });
+}
 
-  if (unanalyzedComments.length === 0) {
+async function analyzeComments() {
+  const { comments, elements } = await collectUnanalyzedComments(100);
+  
+  if (comments.length === 0) {
     if (window.youtubeSentimentPredictions && window.youtubeSentimentPredictions.length > 0) {
-      return Promise.resolve(window.youtubeSentimentPredictions);
+      return window.youtubeSentimentPredictions;
     }
     throw new Error("No new comments to analyze. Scroll down to load more.");
   }
 
   return new Promise((resolve, reject) => {
     chrome.runtime.sendMessage(
-      { action: 'FETCH_SENTIMENT', comments: unanalyzedComments },
+      { action: 'FETCH_SENTIMENT', comments: comments.map(c => c.text) },
       (response) => {
         if (chrome.runtime.lastError) {
           return reject(new Error(chrome.runtime.lastError.message));
@@ -61,11 +96,15 @@ async function analyzeComments() {
         if (response && response.success) {
           response.data.forEach((prediction, index) => {
             const sentiment = prediction.sentiment;
-            const headerElement = unanalyzedElements[index];
+            const headerElement = elements[index];
+            const meta = comments[index];
             injectBadge(headerElement, sentiment);
+            
             window.youtubeSentimentPredictions.push({
-              comment: unanalyzedComments[index],
-              sentiment: sentiment
+              comment: meta.text,
+              sentiment: sentiment,
+              isMember: meta.isMember,
+              isSuperchat: meta.isSuperchat
             });
           });
           resolve(window.youtubeSentimentPredictions);

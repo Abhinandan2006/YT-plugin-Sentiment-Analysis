@@ -2,7 +2,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === 'FETCH_SENTIMENT') {
     const comments = request.comments;
     
-    fetch('http://127.0.0.1:5001/predict', {
+    fetch('https://yt-sentiment-api.onrender.com/predict', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

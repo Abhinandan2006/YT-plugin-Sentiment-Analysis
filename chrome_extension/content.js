@@ -7,6 +7,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 });
 
+window.youtubeSentimentPredictions = window.youtubeSentimentPredictions || [];
+
 async function analyzeComments() {
   const commentElements = document.querySelectorAll('ytd-comment-view-model #content-text, ytd-comment-renderer #content-text');
   
@@ -42,7 +44,10 @@ async function analyzeComments() {
   });
 
   if (unanalyzedComments.length === 0) {
-    throw new Error("All loaded comments are already analyzed.");
+    if (window.youtubeSentimentPredictions && window.youtubeSentimentPredictions.length > 0) {
+      return Promise.resolve(window.youtubeSentimentPredictions);
+    }
+    throw new Error("No new comments to analyze. Scroll down to load more.");
   }
 
   return new Promise((resolve, reject) => {
@@ -58,8 +63,12 @@ async function analyzeComments() {
             const sentiment = prediction.sentiment;
             const headerElement = unanalyzedElements[index];
             injectBadge(headerElement, sentiment);
+            window.youtubeSentimentPredictions.push({
+              comment: unanalyzedComments[index],
+              sentiment: sentiment
+            });
           });
-          resolve(response.data);
+          resolve(window.youtubeSentimentPredictions);
         } else {
           reject(new Error(response?.error || 'Failed to fetch sentiment. Is the local ML server running?'));
         }

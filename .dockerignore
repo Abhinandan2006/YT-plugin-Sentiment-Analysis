@@ -1,0 +1,31 @@
+# Version control and environment
+.git/
+.gitignore
+.venv/
+.idea/
+__pycache__/
+*.pyc
+
+# DVC and MLflow data
+.dvc/
+.dvcignore
+dvc.lock
+dvc.yaml
+mlartifacts/
+mlruns/
+mlflow.db
+experiment_info.json
+
+# Development directories
+notebooks/
+data/
+chrome_extension/
+generate_icons.py
+
+# Logs
+errors.log
+*.log
+
+# Training requirements
+requirements.txt
+params.yaml

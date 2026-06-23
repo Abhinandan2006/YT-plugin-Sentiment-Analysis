@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YT Sentiment Analysis</title>
+  <link rel="stylesheet" href="popup.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="icons/icon48.png" alt="Logo" class="logo" id="logo-img" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmYwMDAwIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTIyLjU0IDE0LjIwMmMtLjE4Ni42OS0uNzIgMS4yMzEtMS40MSAxLjQxQzE4Ljk5IDE2IDEyIDE2IDEyIDE2cy02Ljk5IDAtOS4xMy0uMzhBMi4wMSAyLjAxIDAgMCAxIDEuNDYgMTQuMmMtLjM4LTIuMTM4LS4zOC00LjQwOC0uMzgtNC40MDhzMC0yLjI3LjM4LTQuNDA4QTIuMDEgMi4wMSAwIDAgMSAyLjg3IDMuOTlDMi44NyAzLjk5IDEyIDMuOTkgMTIgMy45OXM2Ljk5IDAgOS4xMy4zOGEyLjAxIDIuMDEgMCAwIDEgMS40MSAxLjQxYy4zOCAyLjEzOC4zOCA0LjQwOC4zOCA0LjQwOHMwIDIuMjctLjM4IDQuNDA4eiIvPjxwb2x5Z29uIHBvaW50cz0iOS43NSA0LjUgMTQuNSAxMiA5Ljc1IDEyIiBmaWxsPSIjZmZmZmZmIi8+PC9zdmc+'">
+      <h1>Sentiment Analyzer</h1>
+    </div>
+    
+    <div class="content">
+      <p>Analyze YouTube comments on the current page to detect sentiment.</p>
+      <button id="analyze-btn" class="primary-btn">
+        <span class="btn-text">Analyze Comments</span>
+        <div class="spinner hidden" id="spinner"></div>
+      </button>
+      <div id="status-message" class="status-msg"></div>
+    </div>
+    
+    <div class="footer">
+      <p>Make sure local ML server is running</p>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

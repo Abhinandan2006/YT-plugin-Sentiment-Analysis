@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "YT Comment Sentiment",
+  "version": "1.0",
+  "description": "Analyzes the sentiment of YouTube comments using a local machine learning backend.",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  "host_permissions": [
+    "*://*.youtube.com/*",
+    "http://127.0.0.1:5001/*",
+    "http://localhost:5001/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.youtube.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Analyze Comments"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

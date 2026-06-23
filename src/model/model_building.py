@@ -6,7 +6,6 @@ import pandas as pd
 from lightgbm import LGBMClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-# Logging configuration
 logger = logging.getLogger('model_building')
 logger.setLevel(logging.DEBUG)
 
@@ -34,7 +33,6 @@ def load_params(params_path: str) -> dict:
 
 def build_model():
     try:
-        # Load params
         params_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../params.yaml')
         params = load_params(params_path)['model_building']
         
@@ -48,7 +46,6 @@ def build_model():
         train_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../data/interim/train_processed.csv')
         train_df = pd.read_csv(train_path)
         
-        # Handle nan just in case
         train_df['clean_comment'] = train_df['clean_comment'].fillna('')
         
         X_train_text = train_df['clean_comment']

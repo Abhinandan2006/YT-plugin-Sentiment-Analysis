@@ -21,6 +21,26 @@
         <div class="spinner hidden" id="spinner"></div>
       </button>
       <div id="status-message" class="status-msg"></div>
+
+      <div id="dashboard" class="dashboard hidden">
+        <div class="stats-grid">
+          <div class="stat-card positive">
+            <h3>Positive</h3>
+            <div class="stat-value" id="stat-pos-count">0</div>
+            <div class="stat-percent" id="stat-pos-percent">0%</div>
+          </div>
+          <div class="stat-card negative">
+            <h3>Negative</h3>
+            <div class="stat-value" id="stat-neg-count">0</div>
+            <div class="stat-percent" id="stat-neg-percent">0%</div>
+          </div>
+        </div>
+        <div class="frequent-words">
+          <h3>Frequent Words</h3>
+          <div class="words-container" id="words-container">
+          </div>
+        </div>
+      </div>
     </div>
     
     <div class="footer">

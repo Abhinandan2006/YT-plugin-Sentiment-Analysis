@@ -6,9 +6,8 @@ from flask_cors import CORS
 from src.data.data_preprocessing import preprocess_comment
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes so the browser plugin can access the API
+CORS(app)
 
-# Load the models globally
 model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'lgbm_model.pkl')
 vectorizer_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'tfidf_vectorizer.pkl')
 
@@ -40,21 +39,16 @@ def predict():
     if len(comments) == 0:
         return jsonify({"predictions": []})
         
-    # Preprocess comments
     cleaned_comments = [preprocess_comment(c) for c in comments]
     
-    # Transform using vectorizer
     X = vectorizer.transform(cleaned_comments)
     
-    # Predict using the model
     predictions = model.predict(X)
     
-    # Prepare the response
     results = []
     for orig_comment, pred in zip(comments, predictions):
         results.append({
             "comment": orig_comment,
-            # Returning as int so the plugin can do any further logic it needs to
             "sentiment": int(pred) 
         })
         
@@ -65,5 +59,4 @@ def health():
     return jsonify({"status": "healthy"}), 200
 
 if __name__ == '__main__':
-    # Run the app locally on port 5001 (to avoid conflict with MLflow)
     app.run(host='0.0.0.0', port=5001, debug=True)

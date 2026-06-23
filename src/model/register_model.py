@@ -3,7 +3,6 @@ import json
 import logging
 import mlflow
 
-# Logging configuration
 logger = logging.getLogger('model_registration')
 logger.setLevel(logging.DEBUG)
 
@@ -22,9 +21,8 @@ logger.addHandler(file_handler)
 
 def register_model():
     try:
-        # Load experiment info
-        info_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../experiment_info.json')
-        with open(info_path, 'r') as f:
+        experiment_info_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../experiment_info.json')
+        with open(experiment_info_path, 'r') as f:
             experiment_info = json.load(f)
             
         run_id = experiment_info['run_id']
@@ -32,7 +30,6 @@ def register_model():
         
         logger.debug(f"Registering model with run_id {run_id}")
         
-        # Register the model using the default tracking URI (or what's configured in environment)
         model_uri = f"runs:/{run_id}/lgbm_model"
         mlflow.register_model(model_uri, model_name)
         

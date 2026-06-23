@@ -8,7 +8,6 @@ import mlflow
 import mlflow.sklearn
 from sklearn.metrics import accuracy_score, f1_score
 
-# Logging configuration
 logger = logging.getLogger('model_evaluation')
 logger.setLevel(logging.DEBUG)
 
@@ -59,7 +58,6 @@ def evaluate_model():
         
         logger.debug(f"Accuracy: {accuracy}, F1 Score: {f1}")
         
-        # Determine tracking URI (defaults to local if not specified, avoiding connection errors if server is down)
         mlflow.set_experiment("LGBM_Sentiment_Analysis")
         
         with mlflow.start_run() as run:
@@ -67,7 +65,6 @@ def evaluate_model():
             mlflow.log_metric("accuracy", accuracy)
             mlflow.log_metric("f1_score", f1)
             
-            # Log models
             mlflow.sklearn.log_model(model, "lgbm_model")
             
             experiment_info = {

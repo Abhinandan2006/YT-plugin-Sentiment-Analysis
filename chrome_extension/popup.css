@@ -117,7 +117,6 @@ p {
   color: #777777;
 }
 
-/* Spinner */
 .spinner {
   width: 18px;
   height: 18px;
@@ -134,4 +133,99 @@ p {
 
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+.dashboard {
+  margin-top: 15px;
+  background-color: var(--secondary-bg);
+  border-radius: 8px;
+  padding: 15px;
+  border: 1px solid var(--border-color);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.stats-grid {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.stat-card {
+  flex: 1;
+  background-color: #242424;
+  border-radius: 6px;
+  padding: 10px;
+  text-align: center;
+  border-bottom: 3px solid;
+}
+
+.stat-card.positive {
+  border-bottom-color: var(--success-color);
+}
+
+.stat-card.negative {
+  border-bottom-color: var(--error-color);
+}
+
+.stat-card h3 {
+  margin: 0 0 5px 0;
+  font-size: 12px;
+  color: #aaaaaa;
+  font-weight: 500;
+}
+
+.stat-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 2px;
+}
+
+.stat-percent {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.stat-card.positive .stat-percent { color: var(--success-color); }
+.stat-card.negative .stat-percent { color: var(--error-color); }
+
+.frequent-words h3 {
+  margin: 0 0 10px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #dddddd;
+  border-top: 1px solid var(--border-color);
+  padding-top: 15px;
+}
+
+.words-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.word-chip {
+  background-color: #333333;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  color: #eeeeee;
+  border: 1px solid #444444;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.word-count {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 1px 4px;
+  border-radius: 8px;
+  font-size: 9px;
+  font-weight: bold;
 }

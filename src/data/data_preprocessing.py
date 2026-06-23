@@ -5,8 +5,8 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 import logging
+import ssl
 
-# Ensure NLTK resources are safely available (using /tmp which is always writable)
 try:
     import tempfile
     nltk_dir = os.path.join(tempfile.gettempdir(), 'nltk_data')
@@ -18,7 +18,6 @@ try:
 except Exception as e:
     print(f"Warning: NLTK download failed, relying on pre-downloaded data: {e}")
 
-# Logging configuration
 logger = logging.getLogger('data_preprocessing')
 logger.setLevel(logging.DEBUG)
 
@@ -60,7 +59,6 @@ def process_data(data_path: str):
         raw_data_path = os.path.join(data_path, 'raw')
         interim_data_path = os.path.join(data_path, 'interim')
         
-        # Create the data/interim directory if it does not exist
         os.makedirs(interim_data_path, exist_ok=True)
         
         logger.debug("Loading raw data from %s", raw_data_path)
